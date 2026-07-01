@@ -301,6 +301,8 @@ void StartGlobalVoteban(int iInitiator) {
     g_SMAPI->Format(szTitle, sizeof(szTitle), GetTranslation("Voteban_GlobalMenuTitle"), g_sVoteTargetName.c_str());
     menus_api->SetTitleMenu(hVoteMenu, szTitle);
 
+    menus_api->AddItemMenu(hVoteMenu,"",GetTranslation("Vote_VoteHint"),ITEM_DISABLED);
+
     menus_api->AddItemMenu(hVoteMenu, "yes", GetTranslation("Vote_Yes"), ITEM_DEFAULT);
     menus_api->AddItemMenu(hVoteMenu, "no", GetTranslation("Vote_No"), ITEM_DEFAULT);
     menus_api->SetExitMenu(hVoteMenu, false);
@@ -447,45 +449,47 @@ bool OnVotebanCommand(int iSlot, const char* szContent) {
             return;
         }
 
-        int iTarget = atoi(szBack);
-        auto pController = CCSPlayerController::FromSlot(iTarget);
-        if (!pController) return;
-        uint64_t iSteamID64 = pController->m_steamID;
-        std::string sName = pController->GetPlayerName();
+        if (iItem < 7) {
+            int iTarget = atoi(szBack);
+            auto pController = CCSPlayerController::FromSlot(iTarget);
+            if (!pController) return;
+            uint64_t iSteamID64 = pController->m_steamID;
+            std::string sName = pController->GetPlayerName();
 
-        time_t now = std::time(nullptr);
-        int64_t iCurrentTime = (int64_t)now;
+            time_t now = std::time(nullptr);
+            int64_t iCurrentTime = (int64_t)now;
 
-        char query[512];
-        g_SMAPI->Format(query, sizeof(query), 
-            "SELECT adminsid, reason, expires_at FROM jb_punishments WHERE sid64 = %llu AND (expires_at = 0 OR expires_at > %lld);",
-            iSteamID64, iCurrentTime);
+            char query[512];
+            g_SMAPI->Format(query, sizeof(query), 
+                "SELECT adminsid, reason, expires_at FROM jb_punishments WHERE sid64 = %llu AND (expires_at = 0 OR expires_at > %lld);",
+                iSteamID64, iCurrentTime);
 
-        if (connection) {
-            connection->Query(query, [iSlot, iTarget, sName](ISQLQuery* res) {
-                auto pInitiator = CCSPlayerController::FromSlot(iSlot);
-                auto pTargetEnt = CCSPlayerController::FromSlot(iTarget);
+            if (connection) {
+                connection->Query(query, [iSlot, iTarget, sName](ISQLQuery* res) {
+                    auto pInitiator = CCSPlayerController::FromSlot(iSlot);
+                    auto pTargetEnt = CCSPlayerController::FromSlot(iTarget);
 
-                if (!pInitiator || !pInitiator->IsConnected() || !pTargetEnt || !pTargetEnt->IsConnected()) {
-                    return; 
-                }
-
-                if (res) {
-                    auto result = res->GetResultSet();
-                    if (result && result->GetRowCount() > 0) {
-                        PrintSlotPrefixed(iSlot, GetTranslation("Voteban_PlayerAlreadyBanned"));
-                    } else {
-                        g_PlayersVoteban[iSlot].iInitiator = iSlot;
-                        g_PlayersVoteban[iSlot].iTarget = iTarget;
-                        g_PlayersVoteban[iSlot].sTargetName = sName;
-
-                        g_bPendingChatReason[iSlot] = true;
-                        OpenReasonMenu(iSlot, "");
+                    if (!pInitiator || !pInitiator->IsConnected() || !pTargetEnt || !pTargetEnt->IsConnected()) {
+                        return; 
                     }
-                }
-            });
-        } else {
-            PrintSlotPrefixed(iSlot, "Database connection error.");
+
+                    if (res) {
+                        auto result = res->GetResultSet();
+                        if (result && result->GetRowCount() > 0) {
+                            PrintSlotPrefixed(iSlot, GetTranslation("Voteban_PlayerAlreadyBanned"));
+                        } else {
+                            g_PlayersVoteban[iSlot].iInitiator = iSlot;
+                            g_PlayersVoteban[iSlot].iTarget = iTarget;
+                            g_PlayersVoteban[iSlot].sTargetName = sName;
+
+                            g_bPendingChatReason[iSlot] = true;
+                            OpenReasonMenu(iSlot, "");
+                        }
+                    }
+                });
+            } else {
+                PrintSlotPrefixed(iSlot, "Database connection error.");
+            }
         }
 
     });
@@ -603,6 +607,7 @@ void jb_votebanct::AllPluginsLoaded() {
         }
 
         OpenReasonMenu(iSlot,sInput.c_str());
+        g_bPendingChatReason[iSlot] = false;
         return false;
 
     });
