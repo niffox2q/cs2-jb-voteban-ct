@@ -208,6 +208,10 @@ void BanPlayer(uint64_t iSteamID64, uint64_t iInitiatorSID, const char* szInitia
 void EndGlobalVoteban() {
     g_bVoteInProgress = false;
 
+    std::string sReason = "Error";
+    if (g_iVoteInitiaor != -1 && !g_PlayersVoteban[g_iVoteInitiaor].sVoteReason.empty()) {
+        sReason = g_PlayersVoteban[g_iVoteInitiaor].sVoteReason;
+    }
     for (int i = 0; i < MAX_PLAYERS; i++) {
         menus_api->ClosePlayerMenu(i);
 
@@ -231,14 +235,10 @@ void EndGlobalVoteban() {
         auto pTargetEnt = CCSPlayerController::FromSlot(g_iVoteTarget);
         if (pTargetEnt && pTargetEnt->IsConnected()) {
             uint64_t targetSid = pTargetEnt->m_steamID;
-
-            // 2. Достаем причину напрямую (мы же знаем слот инициатора)
-            std::string sReason = "Voteban";
             if (g_iVoteInitiaor != -1 && !g_PlayersVoteban[g_iVoteInitiaor].sVoteReason.empty()) {
                 sReason = g_PlayersVoteban[g_iVoteInitiaor].sVoteReason;
             }
 
-            // 3. Достаем данные инициатора
             std::string sInitiatorName = "Server";
             uint64_t initiatorSid = 0;
             
@@ -316,6 +316,8 @@ void StartGlobalVoteban(int iInitiator) {
         if (strcmp(szBack, "yes") == 0) g_iYesVotes++;
         else if (strcmp(szBack, "no") == 0) g_iNoVotes++;
 
+        menus_api->ClosePlayerMenu(iSlot);
+
         g_iVotesCast++;
 
         if (g_iVotesCast >= g_iTotalVotersRequired) {
@@ -326,6 +328,9 @@ void StartGlobalVoteban(int iInitiator) {
     for (int i = 0; i < MAX_PLAYERS; i++) {
         auto pController = CCSPlayerController::FromSlot(i);
         if (!pController || !pController->IsConnected() || pController->IsBot() || pController->GetTeam() <= 1) continue;
+        auto pPawn = pController->GetPlayerPawn();
+        if (!pPawn) continue;
+        if (g_iVoteTarget == i) continue;
         
         g_iTotalVotersRequired++;
         menus_api->DisplayPlayerMenu(hVoteMenu, i, true, true);
@@ -639,4 +644,4 @@ const char* jb_votebanct::GetLicense() { return "GPL"; }
 const char* jb_votebanct::GetLogTag() { return "[JB] Voteban CT"; }
 const char* jb_votebanct::GetName() { return "[JB] Voteban CT"; }
 const char* jb_votebanct::GetURL() { return "https://t.me/niffox_2q"; }
-const char* jb_votebanct::GetVersion() { return "1.0.0"; }
+const char* jb_votebanct::GetVersion() { return "1.0.1"; }
