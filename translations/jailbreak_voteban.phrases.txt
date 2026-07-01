@@ -1,0 +1,129 @@
+"Phrases"
+{
+    "Prefix"
+    {
+        "ru"    " [{GREEN}Voteban{DEFAULT}]"
+        "en"    " [{GREEN}Voteban{DEFAULT}]"
+        "ua"    " [{GREEN}Voteban{DEFAULT}]"
+    }
+    "Voteban_PersonalCooldown"
+    {
+        "ru"    "Подождите %d сек. перед тем как использовать это снова."
+        "en"    "Please wait %d seconds before using this again."
+        "ua"    "Зачекайте %d сек. перед тим як використовувати це знову."
+    }
+    "Voteban_GlobalCooldown"
+    {
+        "ru"    "В данный момент на сервере активен глобальный кулдаун. Подождите %d сек."
+        "en"    "A global voteban cooldown is currently active. Please wait %d seconds."
+        "ua"    "Наразі на сервері активний глобальний кулдаун. Зачекайте %d сек."
+    }
+    "Voteban_Success"
+    {
+        "ru"    "Голосование успешно закочилось."
+        "en"    "The vote finished successfully."
+        "ua"    "Голосування успішно завершилося."
+    }
+    "Voteban_PlayerBan"
+    {
+        "ru"    "Игрок %s {GREEN}получил{DEFAULT} блокировку КТ (%.1f из %.1f необходимых)"
+        "en"    "Player %s {GREEN}received{DEFAULT} a CT ban (%.1f of %.1f required)"
+        "ua"    "Гравець %s {GREEN}отримав{DEFAULT} блокування КТ (%.1f з %.1f необхідних)"
+    }
+    "Voteban_StartedByPlayerReason"
+    {
+        "ru"    "Игрок %s запустил голосование за блокировку КТ %s по причине: %s"
+        "en"    "Player %s started a vote to CT-ban %s for the following reason: %s"
+        "ua"    "Гравець %s розпочав голосування за блокування КТ %s з причини: %s"
+    }
+    "Voteban_Failed"
+    {
+        "ru"    "Голосование за блокировку %s {RED}неудалось{DEFAULT}. (%.1f из %.1f необходимых)"
+        "en"    "The vote to ban %s {RED}failed{DEFAULT}. (%.1f of %.1f required)"
+        "ua"    "Голосування за блокування %s {RED}зазнало невдачі{DEFAULT}. (%.1f з %.1f необхідних)"
+    }
+    "Voteban_AlreadyInProgress"
+    {
+        "ru"    "Голосование уже запущено. Дождитесь его окончания."
+        "en"    "A vote is already in progress. Please wait."
+        "ua"    "Голосування вже розпочато. Дочекайтеся його закінчення."
+    }
+    "Voteban_GlobalMenuTitle"
+    {
+        "ru"    "Забанить КТ %s?"
+        "en"    "Ban CT %s?"
+        "ua"    "Забанити КТ %s?"
+    }
+    "Vote_VoteHint"
+    {
+        "ru"    "Голосование"
+        "en"    "Vote"
+        "ua"    "Голосування"
+    }
+    "Vote_Yes"
+    {
+        "ru"    "Да"
+        "en"    "Yes"
+        "ua"    "Так"
+    }
+    "Vote_No"
+    {
+        "ru"    "Нет"
+        "en"    "No"
+        "ua"    "Ні"
+    }
+    "Voteban_ReasonTitle"
+    {
+        "ru"    "Укажите причину"
+        "en"    "Provide a Reason"
+        "ua"    "Вкажіть причину"
+    }
+    "Voteban_InputReasonInChat"
+    {
+        "ru"    "[ Напишите причину в чат ]"
+        "en"    "[ Type the reason in chat ]"
+        "ua"    "[ Напишіть причину в чат ]"
+    }
+    "VoteBan_InputedReason"
+    {
+        "ru"    "Причина: %s"
+        "en"    "Reason: %s"
+        "ua"    "Причина: %s"
+    }
+    "Voteban_ConfirmButton"
+    {
+        "ru"    "Подтвердить и начать"
+        "en"    "Confirm and Start"
+        "ua"    "Підтвердити та почати"
+    }
+    "Voteban_ReturnButton"
+    {
+        "ru"    "Назад"
+        "en"    "Back"
+        "ua"    "Назад"
+    }
+    "Voteban_MainMenuTitle"
+    {
+        "ru"    "Выберите нарушителя"
+        "en"    "Select the violator"
+        "ua"    "Оберіть порушника"
+    }
+    "Voteban_NoAvailablePlayers"
+    {
+        "ru"    "Нет доступных игроков"
+        "en"    "No available players"
+        "ua"    "Немає доступних гравців"
+    }
+    "Voteban_PlayerAlreadyBanned"
+    {
+        "ru"    "Этот игрок уже имеет активную блокировку!"
+        "en"    "This player is already banned!"
+        "ua"    "Цей гравець вже має активне блокування!"
+    }
+    "Voteban_EmptyInputRetry"
+    {
+        "ru"    "Причина не может быть пустой! Попробуйте написать в чат еще раз."
+        "en"    "The reason cannot be empty! Try typing in chat again."
+        "ua"    "Причина не може бути порожньою! Спробуйте написати в чат ще раз."
+    }
+}
